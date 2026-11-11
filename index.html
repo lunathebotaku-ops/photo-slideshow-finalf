@@ -22,25 +22,19 @@
       padding: 16px;
     }
 
-    /* Page Header Title Styling */
+    /* Dynamic Page Header Title */
     .page-header {
       text-align: center;
       margin-bottom: 20px;
     }
 
     .page-title {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 600;
       color: #333333;
       letter-spacing: 0.8px;
       text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-
-    .page-subtitle {
-      font-size: 13px;
-      color: #777777;
-      letter-spacing: 0.3px;
+      transition: opacity 0.3s ease;
     }
 
     .slideshow-card {
@@ -112,7 +106,7 @@
       transform: translateY(-50%) scale(1.08);
     }
 
-    /* Aesthetic Date Caption */
+    /* Aesthetic Bottom Caption */
     .slide-caption {
       text-align: center;
       padding: 14px 18px;
@@ -138,24 +132,23 @@
 </head>
 <body>
 
-  <!-- Top Title Section -->
+  <!-- Top Title Bar (Updates dynamically based on active slide) -->
   <div class="page-header">
-    <div class="page-title">Photo A Day Journal</div>
-    <div class="page-subtitle">November 2026</div>
+    <div id="dynamic-title" class="page-title">November 12, 2026</div>
   </div>
 
   <div class="slideshow-card">
     <div class="image-frame">
       <!-- Day 1 -->
-      <div class="slide fade">
+      <div class="slide fade" data-date="November 12, 2026">
         <img src="https://lh3.googleusercontent.com/d/1RLV3oFn3op_qL8bjkE9cnZAO6jt0FOrA" alt="Day 1">
-        <div class="slide-caption">Day 1 — November 12, 2026</div>
+        <div class="slide-caption">Day 1</div>
       </div>
 
       <!-- Day 2 -->
-      <div class="slide fade">
+      <div class="slide fade" data-date="November 13, 2026">
         <img src="https://lh3.googleusercontent.com/d/1VwU_PsA1bLX5vGc5xEdYDkuX2vsPz4Vh" alt="Day 2">
-        <div class="slide-caption">Day 2 — November 13, 2026</div>
+        <div class="slide-caption">Day 2</div>
       </div>
 
       <!-- Floating Navigation Arrows -->
@@ -174,12 +167,23 @@
 
   function showSlides(n) {
     let slides = document.getElementsByClassName("slide");
+    let titleElement = document.getElementById("dynamic-title");
+    
     if (n > slides.length) { slideIndex = 1; }
     if (n < 1) { slideIndex = slides.length; }
+    
     for (let i = 0; i < slides.length; i++) {
       slides[i].style.display = "none";  
     }
-    slides[slideIndex - 1].style.display = "block";  
+    
+    // Show current slide
+    slides[slideIndex - 1].style.display = "block";
+    
+    // Update top header title to match the date of the active slide
+    let currentDate = slides[slideIndex - 1].getAttribute("data-date");
+    if (currentDate && titleElement) {
+      titleElement.textContent = currentDate;
+    }
   }
 </script>
 
